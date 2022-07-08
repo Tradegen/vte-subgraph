@@ -3,6 +3,7 @@ import {
   } from "@graphprotocol/graph-ts";  
 import {
  CreatedVTE,
+ UpdatedCreationFee
 } from "../types/VirtualTradingEnvironmentRegistry/VirtualTradingEnvironmentRegistry";
 import {
   VTERegistry,
@@ -28,7 +29,7 @@ export function handleCreatedVTE(event: CreatedVTE): void {
     vteRegistry.collectedFees = vteRegistry.collectedFees.plus(vteRegistry.creationFee);
     vteRegistry.save();
 
-    let vte = new VTE(event.params.index.toString());
+    let vte = new VTE(event.params.contractAddress.toHexString());
     vte.contractAddress = event.params.contractAddress.toHexString();
     vte.createdOn = event.block.timestamp;
     vte.owner = event.params.owner.toHexString();
@@ -44,4 +45,16 @@ export function handleCreatedVTE(event: CreatedVTE): void {
 
     // Create the tracked contract based on the template.
     VirtualTradingEnvironmentTemplate.create(event.params.contractAddress);
+}
+
+export function handleUpdatedCreationFee(event: UpdatedCreationFee): void {
+    let vteRegistry = VTERegistry.load(VTE_REGISTRY_ADDRESS);
+    if (vteRegistry === null) {
+        vteRegistry = new VTERegistry(VTE_REGISTRY_ADDRESS);
+        vteRegistry.numberOfVTEs = 0;
+        vteRegistry.creationFee = BigInt.fromString("100000000000000000000"); // 1e20.
+        vteRegistry.collectedFees = ZERO_BI;
+    }
+    vteRegistry.creationFee = event.params.newFee;
+    vteRegistry.save();
 }

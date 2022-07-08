@@ -13,7 +13,7 @@ type VTERegistry @entity {
 }
 
 type VTE @entity {
-    # VTE ID from VirtualTradingEnvironmentRegistry.
+    # VTE contract address.
     id: ID!
 
     # Address of the VTE contract.
@@ -30,11 +30,6 @@ type VTE @entity {
 
     # Address of the VTE's data feed.
     dataFeed: String!
-
-    # Total leverage factor across all positions in this VTE.
-    cumulativeLeverageFactor: BigInt!
-
-    positions: [Position]! @derivedFrom(field: "vte")
 }
 
 # Data accumulated and condensed into day stats for VTERegistry.
@@ -47,21 +42,4 @@ type VTERegistryDayData @entity {
   totalCollectedFees: BigInt!
 
   dailyCreatedVTEs: Int!
-}
-
-type Position @entity {
-    # VTE ID + "-" + asset symbol.
-    id: ID!
-
-    vte: VTE!
-
-    # Symbol of the asset.
-    symbol: String!
-
-    # Whether the position is long or short.
-    isLong: Boolean!
-
-    # Amount of leverage used.
-    # 18 decimals.
-    leverageFactor: BigInt!
 }

@@ -24,22 +24,5 @@ dataSources:
       eventHandlers:
         - event: CreatedVTE(uint256,address,address)
           handler: handleCreatedVTE
-templates:
-  - kind: ethereum/contract
-    name: VirtualTradingEnvironment
-    network: celo-alfajores
-    source:
-      abi: VirtualTradingEnvironment
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      file: ./src/mappings/VirtualTradingEnvironment.ts
-      entities:
-        - VTE
-      abis:
-        - name: VirtualTradingEnvironment
-          file: ./abis/VirtualTradingEnvironment.json
-      eventHandlers:
-        - event: PlacedOrder(string,bool,uint256,uint256)
-          handler: handlePlacedOrder
+        - event: UpdatedCreationFee(uint256)
+          handler: handleUpdatedCreationFee
