@@ -1,0 +1,45 @@
+specVersion: 0.0.1
+description: Tradegen is a decentralized trading platform that focuses on asset management, algo trading, and virtual trading.
+repository: https://github.com/Tradegen/vte-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: VirtualTradingEnvironmentRegistry
+    network: celo-alfajores
+    source:
+      address: "0xC887d0748e24ca77Dd3c807E3Fab5d79b344eF13"
+      abi: VirtualTradingEnvironmentRegistry
+      startBlock: 12377500
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/VirtualTradingEnvironmentRegistry.ts
+      entities:
+        - VTERegistry
+      abis:
+        - name: VirtualTradingEnvironmentRegistry
+          file: ./abis/VirtualTradingEnvironmentRegistry.json
+      eventHandlers:
+        - event: CreatedVTE(uint256,address,address)
+          handler: handleCreatedVTE
+templates:
+  - kind: ethereum/contract
+    name: VirtualTradingEnvironment
+    network: celo-alfajores
+    source:
+      abi: VirtualTradingEnvironment
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/VirtualTradingEnvironment.ts
+      entities:
+        - VTE
+      abis:
+        - name: VirtualTradingEnvironment
+          file: ./abis/VirtualTradingEnvironment.json
+      eventHandlers:
+        - event: PlacedOrder(string,bool,uint256,uint256)
+          handler: handlePlacedOrder

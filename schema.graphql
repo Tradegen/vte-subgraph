@@ -1,0 +1,67 @@
+type VTERegistry @entity {
+    # VirtualTradingEnvironmentRegistry contract address.
+    id: ID!
+
+    numberOfVTEs: Int!
+
+    # Measured in TGEN.
+    collectedFees: BigInt!   
+}
+
+type VTE @entity {
+    # VTE ID from VirtualTradingEnvironmentRegistry.
+    id: ID!
+
+    # Address of the VTE contract.
+    contractAddress: String!
+
+    # Timestamp at which the VTE was created.
+    createdOn: BigInt!
+
+    # User who manages the VTE.
+    owner: String!
+
+    # Address of user/contract that can update the VTE's params.
+    operator: String!
+
+    # Address of the VTE's data feed.
+    dataFeed: String!
+
+    # Measured in TGEN.
+    # Fee that developers pay whenever they request data from the VTE's data feed.
+    usageFee: BigInt!
+
+    # Total leverage factor across all positions in this VTE.
+    cumulativeLeverageFactor: BigInt!
+
+    positions: [Position]! @derivedFrom(field: "vte")
+}
+
+# Data accumulated and condensed into day stats for VTERegistry.
+type VTERegistryDayData @entity {
+  # Timestamp rounded to current day by dividing by 86400.
+  id: ID! 
+  date: Int!
+
+  dailyCollectedFees: BigInt!
+  totalCollectedFees: BigInt!
+
+  dailyCreatedVTEs: Int!
+}
+
+type Position @entity {
+    # VTE ID + "-" + asset symbol.
+    id: ID!
+
+    vte: VTE!
+
+    # Symbol of the asset.
+    symbol: String!
+
+    # Whether the position is long or short.
+    isLong: Boolean!
+
+    # Amount of leverage used.
+    # 18 decimals.
+    leverageFactor: BigInt!
+}
