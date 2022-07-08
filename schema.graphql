@@ -4,6 +4,10 @@ type VTERegistry @entity {
 
     numberOfVTEs: Int!
 
+    # Fee for creating a VTE.
+    # Measured in TGEN.
+    creationFee: BigInt!
+
     # Measured in TGEN.
     collectedFees: BigInt!   
 }
@@ -26,10 +30,6 @@ type VTE @entity {
 
     # Address of the VTE's data feed.
     dataFeed: String!
-
-    # Measured in TGEN.
-    # Fee that developers pay whenever they request data from the VTE's data feed.
-    usageFee: BigInt!
 
     # Total leverage factor across all positions in this VTE.
     cumulativeLeverageFactor: BigInt!
