@@ -35,7 +35,6 @@ export function handleCreatedVTE(event: CreatedVTE): void {
     vte.owner = event.params.owner.toHexString();
     vte.operator = event.params.owner.toHexString();
     vte.dataFeed = fetchDataFeed(event.params.contractAddress).toHexString();
-    vte.cumulativeLeverageFactor = ZERO_BI;
     vte.save();
 
     let vteRegistryDayData = updateVTERegistryDayData(event);
