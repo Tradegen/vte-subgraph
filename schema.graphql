@@ -5,10 +5,10 @@ type VTERegistry @entity {
     numberOfVTEs: Int!
 
     # Fee for creating a VTE.
-    # Measured in TGEN.
+    # Measured in the protocol's governance token.
     creationFee: BigInt!
 
-    # Measured in TGEN.
+    # Measured in the protoco''s governance token'.
     collectedFees: BigInt!   
 }
 
@@ -38,6 +38,8 @@ type VTERegistryDayData @entity {
   id: ID! 
   date: Int!
 
+  # Measured in the protocol's governance token.
+  # 18 decimals.
   dailyCollectedFees: BigInt!
   totalCollectedFees: BigInt!
 
