@@ -8,7 +8,7 @@ type VTERegistry @entity {
     # Measured in the protocol's governance token.
     creationFee: BigInt!
 
-    # Measured in the protoco''s governance token'.
+    # Measured in the protocol's governance token.
     collectedFees: BigInt!   
 }
 
